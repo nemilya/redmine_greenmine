@@ -1,4 +1,4 @@
-﻿= Greenmine плагин для Redmine
+= Greenmine плагин для Redmine
 
 Проектное управление.
 
