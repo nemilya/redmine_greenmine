@@ -10,3 +10,16 @@ Redmine::Plugin.register :redmine_greenmine do
   url 'https://github.com/nemilya/redmine_greenmine'
   author_url ''
 end
+
+require 'dispatcher'
+Dispatcher.to_prepare :redmine_greenmine do
+
+  require_dependency 'issue'
+  Issue.safe_attributes "gm_responsible_id"
+  Issue.send(:include, RedmineGreenmine::Patches::IssuePatch)
+end
+
+
+require 'redmine_greenmine/hooks/view_issues_show_details_bottom_hook'
+require 'redmine_greenmine/hooks/view_issues_form_details_bottom_hook'
+

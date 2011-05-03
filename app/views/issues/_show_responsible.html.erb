@@ -1,0 +1,12 @@
+<tr>
+    <th class="assigned-to">
+      <%=l(:field_gm_responsible)%>:
+    </th>
+    <td class="assigned-to">
+      <%= avatar(@issue.gm_responsible, :size => "14") %><%= @issue.gm_responsible ? link_to_user(@issue.gm_responsible) : "-" %>
+    </td>
+<!--
+    <th class="progress">&nbsp;</th>
+    <td class="progress">&nbsp;</td>
+-->
+</tr>
