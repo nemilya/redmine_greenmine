@@ -25,6 +25,12 @@ module IssuesHelperPatch
       if params[:moved_issue_id] && params[:moved_issue_id].to_i == child.id
         tr_style = 'background-color: #FFFF99'
       end
+
+      spend_hours = '-'
+      if child.spent_hours > 0
+        spend_hours = link_to(l_hours(child.spent_hours), {:controller => 'timelog', :action => 'index', :project_id => @project, :issue_id => child})
+      end
+
       s << content_tag('tr',
              content_tag('td', check_box_tag("ids[]", child.id, false, :id => nil), :class => 'checkbox') \
               + content_tag('td', link_to_issue(child, :truncate => 60), :class => 'subject') \
@@ -33,7 +39,7 @@ module IssuesHelperPatch
               + content_tag('td', link_to_user(child.assigned_to)) \
               + content_tag('td', child.estimated_hours ? l_hours(child.estimated_hours) : '', :class=>"estimated-hours", :title=>"Оценено") \
               + content_tag('td', progress_bar(child.done_ratio, :width => '80px')) \
-              + content_tag('td', l_hours(child.spent_hours), :class=>"spent-time", :title=>"Затрачено") \
+              + content_tag('td', spend_hours, :class=>"spent-time", :title=>"Затрачено") \
               + content_tag('td', format_date(child.due_date), :class=>"due-date", :title=>"Дата выполнения") \
              ,
              :class => "issue issue-#{child.id} hascontextmenu #{level > 0 ? "idnt idnt-#{level}" : nil}",
