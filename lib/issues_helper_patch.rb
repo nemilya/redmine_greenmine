@@ -26,12 +26,16 @@ module IssuesHelperPatch
         tr_style = 'background-color: #FFFF99'
       end
       s << content_tag('tr',
-             content_tag('td', check_box_tag("ids[]", child.id, false, :id => nil), :class => 'checkbox') +
-             content_tag('td', link_to_issue(child, :truncate => 60), :class => 'subject') +
-             content_tag('td', h(child.status)) +
-             content_tag('td', link_up + ' ' + link_down ) +
-             content_tag('td', link_to_user(child.assigned_to)) +
-             content_tag('td', progress_bar(child.done_ratio, :width => '80px')),
+             content_tag('td', check_box_tag("ids[]", child.id, false, :id => nil), :class => 'checkbox') \
+              + content_tag('td', link_to_issue(child, :truncate => 60), :class => 'subject') \
+              + content_tag('td', h(child.status)) \
+              + content_tag('td', link_up + ' ' + link_down ) \
+              + content_tag('td', link_to_user(child.assigned_to)) \
+              + content_tag('td', child.estimated_hours ? l_hours(child.estimated_hours) : '', :class=>"estimated-hours", :title=>"Оценено") \
+              + content_tag('td', progress_bar(child.done_ratio, :width => '80px')) \
+              + content_tag('td', l_hours(child.spent_hours), :class=>"spent-time", :title=>"Затрачено") \
+              + content_tag('td', format_date(child.due_date), :class=>"due-date", :title=>"Дата выполнения") \
+             ,
              :class => "issue issue-#{child.id} hascontextmenu #{level > 0 ? "idnt idnt-#{level}" : nil}",
              :style => tr_style
              )
