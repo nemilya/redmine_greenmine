@@ -1,3 +1,4 @@
 # russian 
 ru:
   field_gm_responsible: "Ответственный"
+  permission_issue_move_up_down: "Передвижение задач вверх/вниз"

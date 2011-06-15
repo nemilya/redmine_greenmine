@@ -31,6 +31,11 @@ module IssuesHelperPatch
         spend_hours = link_to(l_hours(child.spent_hours), {:controller => 'timelog', :action => 'index', :project_id => @project, :issue_id => child})
       end
 
+      unless User.current.allowed_to?(:issue_move_up_down, @project)
+        link_up = ''
+        link_down = ''
+      end
+
       s << content_tag('tr',
              content_tag('td', check_box_tag("ids[]", child.id, false, :id => nil), :class => 'checkbox') \
               + content_tag('td', link_to_issue(child, :truncate => 60), :class => 'subject') \
