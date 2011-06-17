@@ -150,6 +150,7 @@ module Redmine
         pdf.Ln
         
         # rows
+      
         pdf.SetFontStyle('',8)
         pdf.SetFillColor(255, 255, 255)
         previous_group = false
@@ -187,7 +188,8 @@ module Redmine
         end
         pdf.Output
       end
-      
+
+
       # Returns a PDF string of a single issue
       def issue_to_pdf(issue)
         pdf = IFPDF.new(current_language)
@@ -264,11 +266,11 @@ module Redmine
         pdf.Line(pdf.GetX, pdf.GetY, 170, pdf.GetY)
         pdf.Ln
 
-
+=begin
         # GM
         pdf.SetFontStyle('B',9)
-        # l(:label_associated_revisions)
-        pdf.Cell(190,5, 'Sub tasks', "B")
+        #l(:label_associated_revisions)
+        pdf.Cell(190,5, 'Sub tasks','L',0,"center",2,"ya.ru")
         pdf.Ln
 
         issue_list(issue.descendants.sort_by(&:lft)) do |child, level|
@@ -278,7 +280,76 @@ module Redmine
 
         # empty
         pdf.Ln
+=end
 
+        pdf.SetFontStyle('B',9)
+        pdf.Cell(190,5, 'Sub tasks')
+        pdf.Ln
+
+#table
+       array_of_child = Array.new() 
+       issue_list(issue.descendants.sort_by(&:lft)) do |child, level|
+         array_of_child << child
+       end
+
+     #  pdf.Cell(35,5, l(:field_subject ) + ":",border='1')
+     #  pdf.Cell(35,5, l(:field_description) + ":",border='1')
+     #  pdf.Cell(35,5, l(:field_assigned_to) + ":",border='1')
+     #  pdf.Cell(35,5, l(:field_author) + ":",border='1')
+     #  pdf.Cell(35,5, l(:field_status) + ":",border='1')
+     #  pdf.Ln
+      
+       array_of_child.each do |child|
+       
+          pdf.Cell(35,5, l(:field_subject ) + ":","LRTB" )
+          pdf.MultiCell(90,5, child.subject.to_s, "LRTB" )
+
+          pdf.Cell(35,5, l(:field_description) + ":","LRTB")     
+          pdf.MultiCell(90,5, child.description.to_s,"LRTB")
+    
+          pdf.Cell(35,5, l(:field_assigned_to) + ":","LRTB")
+          pdf.MultiCell(90,5, child.assigned_to.to_s,"LRTB")
+
+          pdf.Cell(35,5, l(:field_author) + ":","LRTB")
+          pdf.MultiCell(90,5, child.author.to_s,"LRTB")
+     
+          pdf.Cell(35,5, l(:field_status) + ":","LRTB")    
+          pdf.MultiCell(90,5, child.status.to_s,"LRTB")
+     
+         pdf.MultiCell(5,5,'') 
+
+       end 
+=begin
+       pdf.Cell(35,5, l(:field_subject ) + ":",border='1')
+       pdf.Cell(35,5, l(:field_description) + ":",border='1')
+       pdf.Cell(35,5, l(:field_due_date) + ":","LT")
+       pdf.Cell(35,5, l(:field_updated_on) + ":","LT")
+       pdf.Cell(35,5, l(:field_assigned_to) + ":",border='1')
+       pdf.Cell(35,5, l(:field_created_on) + ":","LT")
+       pdf.Cell(35,5, l(:field_category) + ":","LT")
+       pdf.Cell(35,5, l(:field_author) + ":",border='1')
+       pdf.Cell(35,5, l(:field_priority) + ":","LT")
+       pdf.Cell(35,5, l(:field_status) + ":",border='1')
+
+
+pdf.MultiCell(190,5, child.subject.to_s)
+pdf.MultiCell(190,5, child.description.to_s)
+pdf.MultiCell(190,5, child.due_date.to_s)
+pdf.MultiCell(190,5, child.updated_on.to_s)
+pdf.MultiCell(190,5, child.assigned_to.to_s)
+pdf.MultiCell(190,5, child.created_on.to_s)
+pdf.MultiCell(190,5, child.category.to_s)
+pdf.MultiCell(190,5, child.author.to_s)
+pdf.MultiCell(190,5, child.priority.to_s)
+pdf.MultiCell(190,5, child.status.to_s)
+=end
+
+pdf.Ln
+
+
+
+
+        
 
         
         if issue.changesets.any? && User.current.allowed_to?(:view_changesets, issue.project)
