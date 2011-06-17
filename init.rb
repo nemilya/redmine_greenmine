@@ -11,6 +11,8 @@ Redmine::Plugin.register :redmine_greenmine do
 
   project_module :issue_tracking do
     permission(:issue_move_up_down, {})
+    permission(:issue_edit_start_date, {})
+    permission(:issue_edit_due_date, {})
   end
 
 end
