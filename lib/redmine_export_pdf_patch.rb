@@ -298,9 +298,9 @@ module Redmine
      #  pdf.Cell(35,5, l(:field_author) + ":",border='1')
      #  pdf.Cell(35,5, l(:field_status) + ":",border='1')
      #  pdf.Ln
-      
+  
        array_of_child.each do |child|
-       
+=begin       
           pdf.Cell(35,5, l(:field_subject ) + ":","LRTB" )
           pdf.MultiCell(90,5, child.subject.to_s, "LRTB" )
 
@@ -317,8 +317,71 @@ module Redmine
           pdf.MultiCell(90,5, child.status.to_s,"LRTB")
      
          pdf.MultiCell(5,5,'') 
+=end
+        pdf.SetFontStyle('B',9)
+        pdf.Cell(35,5, l(:field_status) + ":","LT")
+        pdf.SetFontStyle('',9)
+       # pdf.Cell(60,5, child.status.to_s,"RT")
+        pdf.SetFontStyle('B',9)
+        pdf.Cell(35,5, l(:field_priority) + ":","LT")
+        pdf.SetFontStyle('',9)
+       # pdf.Cell(60,5, child.priority.to_s,"RT")        
+       # pdf.Ln
+          
+        pdf.SetFontStyle('B',9)
+        pdf.Cell(35,5, l(:field_author) + ":","L")
+        pdf.SetFontStyle('',9)
+       # pdf.Cell(60,5, child.author.to_s,"R")
+        pdf.SetFontStyle('B',9)
+        pdf.Cell(35,5, l(:field_category) + ":","L")
+        pdf.SetFontStyle('',9)
+       # pdf.Cell(60,5, child.category.to_s,"R")
+       # pdf.Ln   
+        
+        pdf.SetFontStyle('B',9)
+        pdf.Cell(35,5, l(:field_created_on) + ":","L")
+        pdf.SetFontStyle('',9)
+        #pdf.Cell(60,5, format_date(child.created_on),"R")
+        pdf.SetFontStyle('B',9)
+        pdf.Cell(35,5, l(:field_assigned_to) + ":","L")
+        pdf.SetFontStyle('',9)
+        #pdf.Cell(60,5, child.assigned_to.to_s,"R")
+        #pdf.Ln
+        
+        pdf.SetFontStyle('B',9)
+        pdf.Cell(35,5, l(:field_updated_on) + ":","LB")
+        pdf.SetFontStyle('',9)
+        #pdf.Cell(60,5, format_date(child.updated_on),"RB")
+        pdf.SetFontStyle('B',9)
+        pdf.Cell(35,5, l(:field_due_date) + ":","LB")
+        pdf.SetFontStyle('',9)
+        #pdf.Cell(60,5, format_date(child.due_date),"RB")
+        #pdf.Ln
+          
+        for custom_value in child.custom_field_values
+          pdf.SetFontStyle('B',9)
+          pdf.Cell(35,5, custom_value.custom_field.name + ":","L")
+          pdf.SetFontStyle('',9)
+          pdf.MultiCell(155,5, (show_value custom_value),"R")
+        end
+          
+        pdf.SetFontStyle('B',9)
+        pdf.Cell(35,5, l(:field_subject) + ":","LTB")
+        pdf.SetFontStyle('',9)
+      #  pdf.Cell(155,5, child.subject,"RTB")
+     #   pdf.Ln    
+        
+        pdf.SetFontStyle('B',9)
+        pdf.Cell(35,5, l(:field_description) + ":", "LTB")
+        pdf.SetFontStyle('',9)
+       # pdf.MultiCell(155,5, child.description,"TBR")
+        
+       # pdf.Ln
+
 
        end 
+ 
+
 =begin
        pdf.Cell(35,5, l(:field_subject ) + ":",border='1')
        pdf.Cell(35,5, l(:field_description) + ":",border='1')
@@ -345,9 +408,6 @@ pdf.MultiCell(190,5, child.status.to_s)
 =end
 
 pdf.Ln
-
-
-
 
         
 
