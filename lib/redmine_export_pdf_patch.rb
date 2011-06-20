@@ -292,124 +292,30 @@ module Redmine
          array_of_child << child
        end
 
-     #  pdf.Cell(35,5, l(:field_subject ) + ":",border='1')
-     #  pdf.Cell(35,5, l(:field_description) + ":",border='1')
-     #  pdf.Cell(35,5, l(:field_assigned_to) + ":",border='1')
-     #  pdf.Cell(35,5, l(:field_author) + ":",border='1')
-     #  pdf.Cell(35,5, l(:field_status) + ":",border='1')
-     #  pdf.Ln
-  
-       array_of_child.each do |child|
-=begin       
-          pdf.Cell(35,5, l(:field_subject ) + ":","LRTB" )
-          pdf.MultiCell(90,5, child.subject.to_s, "LRTB" )
-
-          pdf.Cell(35,5, l(:field_description) + ":","LRTB")     
-          pdf.MultiCell(90,5, child.description.to_s,"LRTB")
-    
-          pdf.Cell(35,5, l(:field_assigned_to) + ":","LRTB")
-          pdf.MultiCell(90,5, child.assigned_to.to_s,"LRTB")
-
-          pdf.Cell(35,5, l(:field_author) + ":","LRTB")
-          pdf.MultiCell(90,5, child.author.to_s,"LRTB")
-     
-          pdf.Cell(35,5, l(:field_status) + ":","LRTB")    
-          pdf.MultiCell(90,5, child.status.to_s,"LRTB")
-     
-         pdf.MultiCell(5,5,'') 
-=end
-        pdf.SetFontStyle('B',9)
-        pdf.Cell(35,5, l(:field_status) + ":","LT")
-        pdf.SetFontStyle('',9)
-       # pdf.Cell(60,5, child.status.to_s,"RT")
-        pdf.SetFontStyle('B',9)
-        pdf.Cell(35,5, l(:field_priority) + ":","LT")
-        pdf.SetFontStyle('',9)
-       # pdf.Cell(60,5, child.priority.to_s,"RT")        
-       # pdf.Ln
-          
-        pdf.SetFontStyle('B',9)
-        pdf.Cell(35,5, l(:field_author) + ":","L")
-        pdf.SetFontStyle('',9)
-       # pdf.Cell(60,5, child.author.to_s,"R")
-        pdf.SetFontStyle('B',9)
-        pdf.Cell(35,5, l(:field_category) + ":","L")
-        pdf.SetFontStyle('',9)
-       # pdf.Cell(60,5, child.category.to_s,"R")
-       # pdf.Ln   
-        
-        pdf.SetFontStyle('B',9)
-        pdf.Cell(35,5, l(:field_created_on) + ":","L")
-        pdf.SetFontStyle('',9)
-        #pdf.Cell(60,5, format_date(child.created_on),"R")
-        pdf.SetFontStyle('B',9)
-        pdf.Cell(35,5, l(:field_assigned_to) + ":","L")
-        pdf.SetFontStyle('',9)
-        #pdf.Cell(60,5, child.assigned_to.to_s,"R")
-        #pdf.Ln
-        
-        pdf.SetFontStyle('B',9)
-        pdf.Cell(35,5, l(:field_updated_on) + ":","LB")
-        pdf.SetFontStyle('',9)
-        #pdf.Cell(60,5, format_date(child.updated_on),"RB")
-        pdf.SetFontStyle('B',9)
-        pdf.Cell(35,5, l(:field_due_date) + ":","LB")
-        pdf.SetFontStyle('',9)
-        #pdf.Cell(60,5, format_date(child.due_date),"RB")
-        #pdf.Ln
-          
-        for custom_value in child.custom_field_values
-          pdf.SetFontStyle('B',9)
-          pdf.Cell(35,5, custom_value.custom_field.name + ":","L")
-          pdf.SetFontStyle('',9)
-          pdf.MultiCell(155,5, (show_value custom_value),"R")
-        end
-          
-        pdf.SetFontStyle('B',9)
-        pdf.Cell(35,5, l(:field_subject) + ":","LTB")
-        pdf.SetFontStyle('',9)
-      #  pdf.Cell(155,5, child.subject,"RTB")
-     #   pdf.Ln    
-        
-        pdf.SetFontStyle('B',9)
-        pdf.Cell(35,5, l(:field_description) + ":", "LTB")
-        pdf.SetFontStyle('',9)
-       # pdf.MultiCell(155,5, child.description,"TBR")
-        
-       # pdf.Ln
+       pdf.SetFontStyle('B',8)
+       
+     #  pdf.Cell(25,5, issue.project, border=1)
+       pdf.Cell(25,5,'#' ,border=1)
+       pdf.Cell(25,5,'Трекер' , border=1)
+       pdf.Cell(25,5, l(:field_status) , border=1)
+       pdf.Cell(25,5, l(:field_priority), border=1)
+       pdf.Cell(25,5, l(:field_subject) , border=1)
+       pdf.Cell(25,5, l(:field_assigned_to) , border=1)
+       pdf.MultiCell(30,5, l(:field_due_date), border=1)
 
 
-       end 
- 
+      pdf.SetFontStyle('',7)
+      array_of_child.each do |child|
+        pdf.Cell(25,5, child.id.to_s, border=1)
+        pdf.Cell(25,5, child.tracker.to_s, border=1)
+        pdf.Cell(25,5, child.status.to_s, border=1)
+        pdf.Cell(25,5, child.priority.to_s, border=1)        
+        pdf.Cell(25,5, child.subject.to_s, border=1)
+        pdf.Cell(25,5, child.assigned_to.to_s, border=1)
+        pdf.MultiCell(30,5, format_date(child.due_date), border=1)
+     end 
 
-=begin
-       pdf.Cell(35,5, l(:field_subject ) + ":",border='1')
-       pdf.Cell(35,5, l(:field_description) + ":",border='1')
-       pdf.Cell(35,5, l(:field_due_date) + ":","LT")
-       pdf.Cell(35,5, l(:field_updated_on) + ":","LT")
-       pdf.Cell(35,5, l(:field_assigned_to) + ":",border='1')
-       pdf.Cell(35,5, l(:field_created_on) + ":","LT")
-       pdf.Cell(35,5, l(:field_category) + ":","LT")
-       pdf.Cell(35,5, l(:field_author) + ":",border='1')
-       pdf.Cell(35,5, l(:field_priority) + ":","LT")
-       pdf.Cell(35,5, l(:field_status) + ":",border='1')
-
-
-pdf.MultiCell(190,5, child.subject.to_s)
-pdf.MultiCell(190,5, child.description.to_s)
-pdf.MultiCell(190,5, child.due_date.to_s)
-pdf.MultiCell(190,5, child.updated_on.to_s)
-pdf.MultiCell(190,5, child.assigned_to.to_s)
-pdf.MultiCell(190,5, child.created_on.to_s)
-pdf.MultiCell(190,5, child.category.to_s)
-pdf.MultiCell(190,5, child.author.to_s)
-pdf.MultiCell(190,5, child.priority.to_s)
-pdf.MultiCell(190,5, child.status.to_s)
-=end
-
-pdf.Ln
-
-        
+       pdf.Ln
 
         
         if issue.changesets.any? && User.current.allowed_to?(:view_changesets, issue.project)
