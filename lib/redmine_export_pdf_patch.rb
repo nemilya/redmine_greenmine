@@ -150,6 +150,7 @@ module Redmine
         pdf.Ln
         
         # rows
+      
         pdf.SetFontStyle('',8)
         pdf.SetFillColor(255, 255, 255)
         previous_group = false
@@ -187,7 +188,8 @@ module Redmine
         end
         pdf.Output
       end
-      
+
+
       # Returns a PDF string of a single issue
       def issue_to_pdf(issue)
         pdf = IFPDF.new(current_language)
@@ -264,21 +266,39 @@ module Redmine
         pdf.Line(pdf.GetX, pdf.GetY, 170, pdf.GetY)
         pdf.Ln
 
-
-        # GM
         pdf.SetFontStyle('B',9)
-        # l(:label_associated_revisions)
-        pdf.Cell(190,5, 'Sub tasks', "B")
+        pdf.Cell(190,5, l(:gm_sub_task)+ ':')
         pdf.Ln
 
+#      array_of_child = Array.new() 
+#       issue_list(issue.descendants.sort_by(&:lft)) do |child, level|
+#         array_of_child << child
+#       end
+        
+
+       pdf.SetFontStyle('B',8)
+
+       pdf.Cell(20,5, l(:field_tracker), border=1)
+       pdf.Cell(15,5, l(:field_status), border=1)
+       pdf.Cell(79,5, l(:field_subject), border=1)
+       pdf.Cell(25,5, l(:field_assigned_to), border=1)
+       pdf.Cell(28,5, l(:field_due_date).to_s, border=1 )
+       pdf.Cell(5,5, '%',border=1)
+       pdf.MultiCell(18, 5, "Затр.время", border=1, align='C')
+
+       pdf.SetFontStyle('',7)
         issue_list(issue.descendants.sort_by(&:lft)) do |child, level|
-          pdf.SetFontStyle('',8)
-          pdf.MultiCell(190,5, '  '*level + child.subject.to_s)
-        end
-
-        # empty
-        pdf.Ln
-
+          #array_of_child.each do |child|
+          pdf.Cell(20,5, child.tracker.to_s, border=1 )
+          pdf.Cell(15,5, child.status.to_s, border=1 )
+          pdf.Cell(79,5, '  '*level + child.subject.to_s, border=1 )        
+          pdf.Cell(25,5, child.assigned_to.to_s, border=1 )
+          pdf.Cell(28,5, format_date(child.due_date), border=1 )
+          pdf.Cell(5,5, child.done_ratio.to_s, border=1 )
+          pdf.MultiCell(18,5,child.spent_hours.to_s, border=1, align='C')
+        end 
+       
+     pdf.Ln
 
         
         if issue.changesets.any? && User.current.allowed_to?(:view_changesets, issue.project)
@@ -297,6 +317,8 @@ module Redmine
           end
         end
         
+=begin
+# Убрать историю
         pdf.SetFontStyle('B',9)
         pdf.Cell(190,5, l(:label_history), "B")
         pdf.Ln  
@@ -315,7 +337,7 @@ module Redmine
           end   
           pdf.Ln
         end
-        
+=end  
         if issue.attachments.any?
           pdf.SetFontStyle('B',9)
           pdf.Cell(190,5, l(:label_attachment_plural), "B")
