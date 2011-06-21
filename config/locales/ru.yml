@@ -1,4 +1,7 @@
-# russian 
+# russian
 ru:
   field_gm_responsible: "Ответственный"
+  permission_issue_move_up_down: "Передвижение задач вверх/вниз"
+  permission_issue_edit_start_date: "Редактирование Даты начала задачи"
+  permission_issue_edit_due_date: "Редактирование Дата выполнения задачи"
   gm_sub_task: "Подзадачи"
