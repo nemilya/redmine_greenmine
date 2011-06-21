@@ -5,7 +5,7 @@ Redmine::Plugin.register :redmine_greenmine do
   name 'Redmine Greenmine plugin'
   author 'Ilya Nemihin'
   description 'This is a plugin for Redmine'
-  version '0.0.5'
+  version '0.0.6'
   url 'https://github.com/nemilya/redmine_greenmine'
   author_url ''
 
@@ -13,6 +13,10 @@ Redmine::Plugin.register :redmine_greenmine do
     permission(:issue_move_up_down, {})
     permission(:issue_edit_start_date, {})
     permission(:issue_edit_due_date, {})
+    permission(:issue_edit_priority, {})
+    permission(:issue_edit_assigned_to, {})
+    permission(:issue_edit_done_ratio, {})
+    permission(:issue_edit_status, {})
   end
 
 end

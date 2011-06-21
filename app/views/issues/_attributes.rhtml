@@ -2,13 +2,26 @@
 
 <div class="splitcontentleft">
 <% if @issue.new_record? || @allowed_statuses.any? %>
-<p><%= f.select :status_id, (@allowed_statuses.collect {|p| [p.name, p.id]}), :required => true %></p>
+  <% if User.current.allowed_to?(:issue_edit_status, @project) %>
+    <p><%= f.select :status_id, (@allowed_statuses.collect {|p| [p.name, p.id]}), :required => true %></p>
+  <% else %>
+    <p><%= f.select :status_id, (@allowed_statuses.collect {|p| [p.name, p.id]}), {:required => true}, :disabled => true %></p>
+  <% end %>
 <% else %>
 <p><label><%= l(:field_status) %></label> <%= @issue.status.name %></p>
 <% end %>
 
-<p><%= f.select :priority_id, (@priorities.collect {|p| [p.name, p.id]}), {:required => true}, :disabled => !@issue.leaf? %></p>
-<p><%= f.select :assigned_to_id, (@issue.assignable_users.collect {|m| [m.name, m.id]}), :include_blank => true %></p>
+<% if User.current.allowed_to?(:issue_edit_priority, @project) %>
+  <p><%= f.select :priority_id, (@priorities.collect {|p| [p.name, p.id]}), {:required => true}, :disabled => !@issue.leaf? %></p>
+<% else %>
+  <p><%= f.select :priority_id, (@priorities.collect {|p| [p.name, p.id]}), {:required => true}, :disabled => true %></p>
+<% end %>
+
+<% if User.current.allowed_to?(:issue_edit_assigned_to, @project) %>
+  <p><%= f.select :assigned_to_id, (@issue.assignable_users.collect {|m| [m.name, m.id]}), :include_blank => true %></p>
+<% else %>
+  <p><%= f.select :assigned_to_id, (@issue.assignable_users.collect {|m| [m.name, m.id]}), {:include_blank => true}, :disabled => true %></p>
+<% end %>
 <% unless @project.issue_categories.empty? %>
 <p><%= f.select :category_id, (@project.issue_categories.collect {|c| [c.name, c.id]}), :include_blank => true %>
 <%= prompt_to_remote(image_tag('add.png', :style => 'vertical-align: middle;'),
@@ -43,7 +56,12 @@
 <% end %>
 <p><%= f.text_field :estimated_hours, :size => 3, :disabled => !@issue.leaf? %> <%= l(:field_hours) %></p>
 <% if @issue.leaf? && Issue.use_field_for_done_ratio? %>
-<p><%= f.select :done_ratio, ((0..10).to_a.collect {|r| ["#{r*10} %", r*10] }) %></p>
+  
+  <% if User.current.allowed_to?(:issue_edit_done_ratio, @project) %>
+    <p><%= f.select :done_ratio, ((0..10).to_a.collect {|r| ["#{r*10} %", r*10] }) %></p>
+  <% else %>
+    <p><%= f.select :done_ratio, ((0..10).to_a.collect {|r| ["#{r*10} %", r*10] }), {}, :disabled=>true %></p>
+  <% end %>
 <% end %>
 </div>
 
