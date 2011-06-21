@@ -266,56 +266,37 @@ module Redmine
         pdf.Line(pdf.GetX, pdf.GetY, 170, pdf.GetY)
         pdf.Ln
 
-=begin
-        # GM
-        pdf.SetFontStyle('B',9)
-        #l(:label_associated_revisions)
-        pdf.Cell(190,5, 'Sub tasks','L',0,"center",2,"ya.ru")
-        pdf.Ln
-
-        issue_list(issue.descendants.sort_by(&:lft)) do |child, level|
-          pdf.SetFontStyle('',8)
-          pdf.MultiCell(190,5, '  '*level + child.subject.to_s)
-        end
-
-        # empty
-        pdf.Ln
-=end
-
         pdf.SetFontStyle('B',9)
         pdf.Cell(190,5, 'Sub tasks')
         pdf.Ln
 
-#table
        array_of_child = Array.new() 
        issue_list(issue.descendants.sort_by(&:lft)) do |child, level|
          array_of_child << child
        end
 
        pdf.SetFontStyle('B',8)
-       
-     #  pdf.Cell(25,5, issue.project, border=1)
-       pdf.Cell(25,5,'#' ,border=1)
-       pdf.Cell(25,5,'Трекер' , border=1)
+
+       pdf.Cell(25,5, l(:field_tracker) , border=1)
        pdf.Cell(25,5, l(:field_status) , border=1)
-       pdf.Cell(25,5, l(:field_priority), border=1)
        pdf.Cell(25,5, l(:field_subject) , border=1)
        pdf.Cell(25,5, l(:field_assigned_to) , border=1)
-       pdf.MultiCell(30,5, l(:field_due_date), border=1)
+       pdf.Cell(30,5, l(:field_due_date).to_s, border=1)
+       pdf.Cell(25,5, l(:field_done_ratio).to_s,border=1)
+       pdf.MultiCell(35,5, l(:label_spent_time).to_s ,border=1)
 
-
-      pdf.SetFontStyle('',7)
-      array_of_child.each do |child|
-        pdf.Cell(25,5, child.id.to_s, border=1)
-        pdf.Cell(25,5, child.tracker.to_s, border=1)
-        pdf.Cell(25,5, child.status.to_s, border=1)
-        pdf.Cell(25,5, child.priority.to_s, border=1)        
-        pdf.Cell(25,5, child.subject.to_s, border=1)
-        pdf.Cell(25,5, child.assigned_to.to_s, border=1)
-        pdf.MultiCell(30,5, format_date(child.due_date), border=1)
-     end 
-
-       pdf.Ln
+       pdf.SetFontStyle('',7)
+       array_of_child.each do |child|
+          pdf.Cell(25,5, child.tracker.to_s, border=1)
+          pdf.Cell(25,5, child.status.to_s, border=1)
+          pdf.Cell(25,5, child.subject.to_s, border=1)        
+          pdf.Cell(25,5, child.assigned_to.to_s, border=1)
+          pdf.Cell(30,5, format_date(child.due_date), border=1)
+          pdf.Cell(25,5, child.done_ratio.to_s, border=1)
+          pdf.MultiCell(35,5,child.spent_hours.to_s, border=1)
+       end 
+       
+     pdf.Ln
 
         
         if issue.changesets.any? && User.current.allowed_to?(:view_changesets, issue.project)
