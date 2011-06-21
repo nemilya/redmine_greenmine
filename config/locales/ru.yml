@@ -1,3 +1,4 @@
 # russian 
 ru:
   field_gm_responsible: "Ответственный"
+  gm_sub_task: "Подзадачи"

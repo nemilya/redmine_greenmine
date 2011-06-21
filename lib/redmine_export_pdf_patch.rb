@@ -267,34 +267,36 @@ module Redmine
         pdf.Ln
 
         pdf.SetFontStyle('B',9)
-        pdf.Cell(190,5, 'Sub tasks')
+        pdf.Cell(190,5, l(:gm_sub_task)+ ':')
         pdf.Ln
 
-       array_of_child = Array.new() 
-       issue_list(issue.descendants.sort_by(&:lft)) do |child, level|
-         array_of_child << child
-       end
+#      array_of_child = Array.new() 
+#       issue_list(issue.descendants.sort_by(&:lft)) do |child, level|
+#         array_of_child << child
+#       end
+        
 
        pdf.SetFontStyle('B',8)
 
-       pdf.Cell(25,5, l(:field_tracker) , border=1)
-       pdf.Cell(25,5, l(:field_status) , border=1)
-       pdf.Cell(25,5, l(:field_subject) , border=1)
-       pdf.Cell(25,5, l(:field_assigned_to) , border=1)
-       pdf.Cell(30,5, l(:field_due_date).to_s, border=1)
-       pdf.Cell(25,5, l(:field_done_ratio).to_s,border=1)
-       pdf.MultiCell(35,5, l(:label_spent_time).to_s ,border=1)
+       pdf.Cell(20,5, l(:field_tracker), border=1)
+       pdf.Cell(15,5, l(:field_status), border=1)
+       pdf.Cell(79,5, l(:field_subject), border=1)
+       pdf.Cell(25,5, l(:field_assigned_to), border=1)
+       pdf.Cell(28,5, l(:field_due_date).to_s, border=1 )
+       pdf.Cell(5,5, '%',border=1)
+       pdf.MultiCell(18, 5, "Затр.время", border=1, align='C')
 
        pdf.SetFontStyle('',7)
-       array_of_child.each do |child|
-          pdf.Cell(25,5, child.tracker.to_s, border=1)
-          pdf.Cell(25,5, child.status.to_s, border=1)
-          pdf.Cell(25,5, child.subject.to_s, border=1)        
-          pdf.Cell(25,5, child.assigned_to.to_s, border=1)
-          pdf.Cell(30,5, format_date(child.due_date), border=1)
-          pdf.Cell(25,5, child.done_ratio.to_s, border=1)
-          pdf.MultiCell(35,5,child.spent_hours.to_s, border=1)
-       end 
+        issue_list(issue.descendants.sort_by(&:lft)) do |child, level|
+          #array_of_child.each do |child|
+          pdf.Cell(20,5, child.tracker.to_s, border=1 )
+          pdf.Cell(15,5, child.status.to_s, border=1 )
+          pdf.Cell(79,5, '  '*level + child.subject.to_s, border=1 )        
+          pdf.Cell(25,5, child.assigned_to.to_s, border=1 )
+          pdf.Cell(28,5, format_date(child.due_date), border=1 )
+          pdf.Cell(5,5, child.done_ratio.to_s, border=1 )
+          pdf.MultiCell(18,5,child.spent_hours.to_s, border=1, align='C')
+        end 
        
      pdf.Ln
 
@@ -315,6 +317,8 @@ module Redmine
           end
         end
         
+=begin
+# Убрать историю
         pdf.SetFontStyle('B',9)
         pdf.Cell(190,5, l(:label_history), "B")
         pdf.Ln  
@@ -333,7 +337,7 @@ module Redmine
           end   
           pdf.Ln
         end
-        
+=end  
         if issue.attachments.any?
           pdf.SetFontStyle('B',9)
           pdf.Cell(190,5, l(:label_attachment_plural), "B")
