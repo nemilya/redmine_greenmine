@@ -16,4 +16,5 @@
 оторажаются русские буквы (plugins/rfpdf).
 
 = Лицензия
-
+   Распространяется согласно GNU General Public License.(http://greenmine-pmi.blogspot.com/p/redmine.html)
+   
