@@ -1,0 +1,20 @@
+cd ~/src/
+git clone git://github.com/edavis10/redmine.git
+cd redmine
+git checkout 1.1.1
+cd vendor/plugins
+git://github.com/nemilya/redmine_greenmine.git
+rm -rf rfpdf/
+git clone git://github.com/edwinmoss/rfpdf.git
+cd ~/src/redmine
+
+Создаем "redmine/config/database.yml"
+
+rake db:migrate
+rake db:migrate:plugins
+rake generate_session_store
+RAILS_ENV=production rake db:migrate
+RAILS_ENV=production rake redmine:load_default_data
+
+RAILS_ENV=development rake db:migrate
+RAILS_ENV=development rake redmine:load_default_data
