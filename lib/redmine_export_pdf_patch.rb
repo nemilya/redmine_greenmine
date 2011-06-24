@@ -94,7 +94,7 @@ module Redmine
         def Cell(w,h=0,txt='',border=0,ln=0,align='',fill=0,link='')
           @ic ||= Iconv.new(l(:general_pdf_encoding), 'UTF-8')
           # these quotation marks are not correctly rendered in the pdf
-          txt = txt.gsub(/[a??a??]/, '"') if txt
+          txt = txt.gsub(/[√¢‚Ç¨≈ì√¢‚Ç¨ÔøΩ]/, '"') if txt
           txt = begin
             # 0x5c char handling
             txtar = txt.split('\\')
@@ -279,11 +279,11 @@ module Redmine
        pdf.Cell(21,5, l(:field_assigned_to), border=1)
        pdf.Cell(27,5, l(:field_due_date).to_s, border=1 )
        pdf.Cell(5,5, '%',border=1)
-       pdf.MultiCell(18, 5, "á†‚‡.¢‡•¨Ô", border=1, align='C')
+       pdf.MultiCell(18, 5, "–ó–∞—Ç—Ä.–≤—Ä–µ–º—è", border=1, align='C')
 
        pdf.SetFontStyle('',7)
         issue_list(issue.descendants.sort_by(&:lft)) do |child, level|
-          pdf.Cell(36,5, "éØ•‡†Ê®Æ≠≠†Ô §•Ô‚•´Ï≠Æ·‚Ï", border=1 )
+          pdf.Cell(36,5, "–û–ø–µ—Ä–∞—Ü–∏–æ–Ω–Ω–∞—è –¥–µ—è—Ç–µ–ª—å–Ω–æ—Å—Ç—å", border=1 )
           pdf.Cell(13,5, child.status.to_s, border=1 )
           pdf.Cell(78,5, ' '*level + child.subject.to_s, border=1 )        
           pdf.Cell(21,5, child.assigned_to.to_s, border=1 )
@@ -312,7 +312,7 @@ module Redmine
         end
         
 =begin
-# ì°‡†‚Ï ®·‚Æ‡®Ó
+# –£–±—Ä–∞—Ç—å –∏—Å—Ç–æ—Ä–∏—é
         pdf.SetFontStyle('B',9)
         pdf.Cell(190,5, l(:label_history), "B")
         pdf.Ln  
