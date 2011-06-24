@@ -285,11 +285,11 @@ module Redmine
         issue_list(issue.descendants.sort_by(&:lft)) do |child, level|
           pdf.Cell(36,5, "Операционная деятельность", border=1 )
           pdf.Cell(13,5, child.status.to_s, border=1 )
-          pdf.Cell(78,5, ' '*level + child.subject.to_s, border=1 )        
-          pdf.Cell(21,5, child.assigned_to.to_s, border=1 )
+          pdf.Cell(68,5, ' '*level + child.subject.to_s, border=1 )        
+          pdf.Cell(31,5, child.assigned_to.to_s, border=1 )
           pdf.Cell(27,5, format_date(child.due_date), border=1 )
           pdf.Cell(5,5, child.done_ratio.to_s, border=1 )
-          pdf.MultiCell(18,5,child.spent_hours.to_s, border=1, align='C')
+          pdf.MultiCell(18,5, l_hours(child.spent_hours), border=1, align='C')
         end 
        
      pdf.Ln
