@@ -275,10 +275,10 @@ module Redmine
 
        pdf.Cell(36,5, l(:field_tracker), border=1)
        pdf.Cell(13,5, l(:field_status), border=1)
-       pdf.Cell(78,5, l(:field_subject), border=1)
-       pdf.Cell(21,5, l(:field_assigned_to), border=1)
+       pdf.Cell(68,5, l(:field_subject), border=1)
+       pdf.Cell(29,5, l(:field_assigned_to), border=1)
        pdf.Cell(27,5, l(:field_due_date).to_s, border=1 )
-       pdf.Cell(5,5, '%',border=1)
+       pdf.Cell(7,5, '%',border=1)
        pdf.MultiCell(18, 5, "Затр.время", border=1, align='C')
 
        pdf.SetFontStyle('',7)
@@ -286,9 +286,9 @@ module Redmine
           pdf.Cell(36,5, "Операционная деятельность", border=1 )
           pdf.Cell(13,5, child.status.to_s, border=1 )
           pdf.Cell(68,5, ' '*level + child.subject.to_s, border=1 )        
-          pdf.Cell(31,5, child.assigned_to.to_s, border=1 )
+          pdf.Cell(29,5, child.assigned_to.to_s, border=1 )
           pdf.Cell(27,5, format_date(child.due_date), border=1 )
-          pdf.Cell(5,5, child.done_ratio.to_s, border=1 )
+          pdf.Cell(7,5, child.done_ratio.to_s, border=1 )
           pdf.MultiCell(18,5, l_hours(child.spent_hours), border=1, align='C')
         end 
        
