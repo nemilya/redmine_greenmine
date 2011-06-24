@@ -94,7 +94,7 @@ module Redmine
         def Cell(w,h=0,txt='',border=0,ln=0,align='',fill=0,link='')
           @ic ||= Iconv.new(l(:general_pdf_encoding), 'UTF-8')
           # these quotation marks are not correctly rendered in the pdf
-          txt = txt.gsub(/[Ã¢â‚¬Å“Ã¢â‚¬ï¿½]/, '"') if txt
+          txt = txt.gsub(/[a??a??]/, '"') if txt
           txt = begin
             # 0x5c char handling
             txtar = txt.split('\\')
@@ -270,30 +270,24 @@ module Redmine
         pdf.Cell(190,5, l(:gm_sub_task)+ ':')
         pdf.Ln
 
-#      array_of_child = Array.new() 
-#       issue_list(issue.descendants.sort_by(&:lft)) do |child, level|
-#         array_of_child << child
-#       end
-        
 
        pdf.SetFontStyle('B',8)
 
-       pdf.Cell(20,5, l(:field_tracker), border=1)
-       pdf.Cell(15,5, l(:field_status), border=1)
-       pdf.Cell(79,5, l(:field_subject), border=1)
-       pdf.Cell(25,5, l(:field_assigned_to), border=1)
-       pdf.Cell(28,5, l(:field_due_date).to_s, border=1 )
+       pdf.Cell(36,5, l(:field_tracker), border=1)
+       pdf.Cell(13,5, l(:field_status), border=1)
+       pdf.Cell(78,5, l(:field_subject), border=1)
+       pdf.Cell(21,5, l(:field_assigned_to), border=1)
+       pdf.Cell(27,5, l(:field_due_date).to_s, border=1 )
        pdf.Cell(5,5, '%',border=1)
-       pdf.MultiCell(18, 5, "Ð—Ð°Ñ‚Ñ€.Ð²Ñ€ÐµÐ¼Ñ", border=1, align='C')
+       pdf.MultiCell(18, 5, "‡ âà.¢à¥¬ï", border=1, align='C')
 
        pdf.SetFontStyle('',7)
         issue_list(issue.descendants.sort_by(&:lft)) do |child, level|
-          #array_of_child.each do |child|
-          pdf.Cell(20,5, child.tracker.to_s, border=1 )
-          pdf.Cell(15,5, child.status.to_s, border=1 )
-          pdf.Cell(79,5, '  '*level + child.subject.to_s, border=1 )        
-          pdf.Cell(25,5, child.assigned_to.to_s, border=1 )
-          pdf.Cell(28,5, format_date(child.due_date), border=1 )
+          pdf.Cell(36,5, "Ž¯¥à æ¨®­­ ï ¤¥ïâ¥«ì­®áâì", border=1 )
+          pdf.Cell(13,5, child.status.to_s, border=1 )
+          pdf.Cell(78,5, ' '*level + child.subject.to_s, border=1 )        
+          pdf.Cell(21,5, child.assigned_to.to_s, border=1 )
+          pdf.Cell(27,5, format_date(child.due_date), border=1 )
           pdf.Cell(5,5, child.done_ratio.to_s, border=1 )
           pdf.MultiCell(18,5,child.spent_hours.to_s, border=1, align='C')
         end 
@@ -318,7 +312,7 @@ module Redmine
         end
         
 =begin
-# Ð£Ð±Ñ€Ð°Ñ‚ÑŒ Ð¸ÑÑ‚Ð¾Ñ€Ð¸ÑŽ
+# “¡à âì ¨áâ®à¨î
         pdf.SetFontStyle('B',9)
         pdf.Cell(190,5, l(:label_history), "B")
         pdf.Ln  
