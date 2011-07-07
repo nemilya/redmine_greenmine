@@ -30,10 +30,23 @@ require 'dispatcher'
 Dispatcher.to_prepare :redmine_greenmine do
 
   require_dependency 'issue'
-  Issue.safe_attributes "gm_responsible_id"
+   Issue.safe_attributes "gm_responsible_id"
+
+      Issue.safe_attributes 'issue_edit_start_date',
+      :if => lambda {|issue, user| issue.new_record? || user.allowed_to?(:issue_edit_start_date, issue.project) }
+      Issue.safe_attributes 'issue_edit_due_date',
+      :if => lambda {|issue, user| issue.new_record? || user.allowed_to?(:issue_edit_due_date, issue.project) }
+      Issue.safe_attributes 'issue_edit_priority',
+      :if => lambda {|issue, user| issue.new_record? || user.allowed_to?(:issue_edit_priority, issue.project) }
+      Issue.safe_attributes 'issue_edit_assigned_to',
+      :if => lambda {|issue, user| issue.new_record? || user.allowed_to?(:issue_edit_assigned_to, issue.project) }
+      Issue.safe_attributes 'issue_edit_done_ratio',
+      :if => lambda {|issue, user| issue.new_record? || user.allowed_to?(:issue_edit_done_ratio, issue.project) }
+      Issue.safe_attributes 'issue_edit_status',
+      :if => lambda {|issue, user| issue.new_record? || user.allowed_to?(:issue_edit_status, issue.project) }
+
   Issue.send(:include, RedmineGreenmine::Patches::IssuePatch)
 end
-
 
 require 'redmine_greenmine/hooks/view_issues_show_details_bottom_hook'
 require 'redmine_greenmine/hooks/view_issues_form_details_bottom_hook'
