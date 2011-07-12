@@ -2,7 +2,7 @@
 
 <div class="splitcontentleft">
 <% if @issue.new_record? || @allowed_statuses.any? %>
-  <% if User.current.allowed_to?(:issue_edit_status, @project) %>
+  <% if @issue.new_record? || User.current.allowed_to?(:issue_edit_status, @project) %>
     <p><%= f.select :status_id, (@allowed_statuses.collect {|p| [p.name, p.id]}), :required => true %></p>
   <% else %>
     <p><%= f.select :status_id, (@allowed_statuses.collect {|p| [p.name, p.id]}), {:required => true}, :disabled => true %></p>
@@ -11,13 +11,13 @@
 <p><label><%= l(:field_status) %></label> <%= @issue.status.name %></p>
 <% end %>
 
-<% if User.current.allowed_to?(:issue_edit_priority, @project) %>
+<% if @issue.new_record? || User.current.allowed_to?(:issue_edit_priority, @project) %>
   <p><%= f.select :priority_id, (@priorities.collect {|p| [p.name, p.id]}), {:required => true}, :disabled => !@issue.leaf? %></p>
 <% else %>
   <p><%= f.select :priority_id, (@priorities.collect {|p| [p.name, p.id]}), {:required => true}, :disabled => true %></p>
 <% end %>
 
-<% if User.current.allowed_to?(:issue_edit_assigned_to, @project) %>
+<% if @issue.new_record? || User.current.allowed_to?(:issue_edit_assigned_to, @project) %>
   <p><%= f.select :assigned_to_id, (@issue.assignable_users.collect {|m| [m.name, m.id]}), :include_blank => true %></p>
 <% else %>
   <p><%= f.select :assigned_to_id, (@issue.assignable_users.collect {|m| [m.name, m.id]}), {:include_blank => true}, :disabled => true %></p>
@@ -44,18 +44,18 @@
 </div>
 
 <div class="splitcontentright">
-<% if User.current.allowed_to?(:issue_edit_start_date, @project) %>
+<% if @issue.new_record? || User.current.allowed_to?(:issue_edit_start_date, @project) %>
   <p><%= f.text_field :start_date, :size => 10, :disabled => !@issue.leaf? %><%= calendar_for('issue_start_date') if @issue.leaf? %></p>
 <% else %>
   <p><%= f.text_field :start_date, :size => 10, :disabled => true %></p>
 <% end %>
-<% if User.current.allowed_to?(:issue_edit_due_date, @project) %>
+<% if @issue.new_record? || User.current.allowed_to?(:issue_edit_due_date, @project) %>
   <p><%= f.text_field :due_date, :size => 10, :disabled => !@issue.leaf? %><%= calendar_for('issue_due_date') if @issue.leaf? %></p>
 <% else %>
   <p><%= f.text_field :due_date, :size => 10, :disabled => true %></p>
 <% end %>
 
-<% if User.current.allowed_to?(:issue_edit_estimated_hours, @project) %>
+<% if @issue.new_record? || User.current.allowed_to?(:issue_edit_estimated_hours, @project) %>
   <p><%= f.text_field :estimated_hours, :size => 3, :disabled => !@issue.leaf? %> <%= l(:field_hours) %></p>
 <% else %>
   <p><%= f.text_field :estimated_hours, :size => 3, :disabled => true %> <%= l(:field_hours) %></p>
@@ -63,7 +63,7 @@
 
 <% if @issue.leaf? && Issue.use_field_for_done_ratio? %>
   
-  <% if User.current.allowed_to?(:issue_edit_done_ratio, @project) %>
+  <% if @issue.new_record? || User.current.allowed_to?(:issue_edit_done_ratio, @project) %>
     <p><%= f.select :done_ratio, ((0..10).to_a.collect {|r| ["#{r*10} %", r*10] }) %></p>
   <% else %>
     <p><%= f.select :done_ratio, ((0..10).to_a.collect {|r| ["#{r*10} %", r*10] }), {}, :disabled=>true %></p>
