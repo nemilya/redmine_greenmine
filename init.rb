@@ -18,6 +18,7 @@ Redmine::Plugin.register :redmine_greenmine do
     permission(:issue_edit_done_ratio, {})
     permission(:issue_edit_status, {})
     permission(:issue_edit_attachments, {})
+    permission(:issue_edit_estimated_hours, {})
   end
 
 end
@@ -33,18 +34,11 @@ Dispatcher.to_prepare :redmine_greenmine do
   require_dependency 'issue'
   Issue.safe_attributes "gm_responsible_id"
 
-  Issue.safe_attributes 'start_date',
-      :if => lambda {|issue, user| issue.new_record? || user.allowed_to?(:issue_edit_start_date, issue.project) }
-  Issue.safe_attributes 'due_date',
-      :if => lambda {|issue, user| issue.new_record? || user.allowed_to?(:issue_edit_due_date, issue.project) }
-  Issue.safe_attributes 'priority',
-      :if => lambda {|issue, user| issue.new_record? || user.allowed_to?(:issue_edit_priority, issue.project) }
-  Issue.safe_attributes 'assigned_to',
-      :if => lambda {|issue, user| issue.new_record? || user.allowed_to?(:issue_edit_assigned_to, issue.project) }
-  Issue.safe_attributes 'done_ratio',
-      :if => lambda {|issue, user| issue.new_record? || user.allowed_to?(:issue_edit_done_ratio, issue.project) }
-  Issue.safe_attributes 'status',
-      :if => lambda {|issue, user| issue.new_record? || user.allowed_to?(:issue_edit_status, issue.project) }
+
+  ['start_date', 'due_date', 'priority', 'assigned_to', 'done_ratio', 'status', 'estimated_hours'].each do |f_name|
+    Issue.safe_attributes f_name,
+      :if => lambda {|issue, user| issue.new_record? || user.allowed_to?("issue_edit_#{f_name}".to_sym, issue.project) }
+  end
 
   Issue.send(:include, RedmineGreenmine::Patches::IssuePatch)
 

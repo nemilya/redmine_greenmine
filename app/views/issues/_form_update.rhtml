@@ -1,24 +1,16 @@
 <div class="attributes">
 <div class="splitcontentleft">
   
-  
-  
-<% if User.current.allowed_to?(:issue_edit_status , @project) %>
+<% if User.current.allowed_to?(:issue_edit_status, @project) %>
    <p><%= f.select :status_id, (@allowed_statuses.collect {|p| [p.name, p.id]}), :required => true %></p>
 <% end %>  
 
 
-<% if User.current.allowed_to?(:issue_edit_assigned_to , @project) %>
+<% if User.current.allowed_to?(:issue_edit_assigned_to, @project) %>
   <p><%= f.select :assigned_to_id, (@issue.assignable_users.collect {|m| [m.name, m.id]}), :include_blank => true %></p>
   <% end %>
 
 </div>
-
-
-<!--<div id="attributes" class="attributes">
-  <%= render :partial => 'issues/attributes' %>
-</div>
--->
 
 <div class="splitcontentright">
   
@@ -37,6 +29,10 @@
 
 <% if User.current.allowed_to?(:issue_edit_due_date, @project) %>
   <p><%= f.text_field :due_date, :size => 10, :disabled => !@issue.leaf? %><%= calendar_for('issue_due_date') if @issue.leaf? %></p>
+<% end %>
+
+<% if User.current.allowed_to?(:issue_edit_estimated_hours, @project) %>
+  <p><%= f.text_field :estimated_hours, :size => 3, :disabled => !@issue.leaf? %> <%= l(:field_hours) %></p>
 <% end %>
 
 <% unless @issue.assignable_versions.empty? %>

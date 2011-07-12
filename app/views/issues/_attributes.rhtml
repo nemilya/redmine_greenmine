@@ -54,7 +54,13 @@
 <% else %>
   <p><%= f.text_field :due_date, :size => 10, :disabled => true %></p>
 <% end %>
-<p><%= f.text_field :estimated_hours, :size => 3, :disabled => !@issue.leaf? %> <%= l(:field_hours) %></p>
+
+<% if User.current.allowed_to?(:issue_edit_estimated_hours, @project) %>
+  <p><%= f.text_field :estimated_hours, :size => 3, :disabled => !@issue.leaf? %> <%= l(:field_hours) %></p>
+<% else %>
+  <p><%= f.text_field :estimated_hours, :size => 3, :disabled => true %> <%= l(:field_hours) %></p>
+<% end %>
+
 <% if @issue.leaf? && Issue.use_field_for_done_ratio? %>
   
   <% if User.current.allowed_to?(:issue_edit_done_ratio, @project) %>
