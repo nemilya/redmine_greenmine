@@ -8,4 +8,5 @@ ru:
   permission_issue_edit_assigned_to: "Редактирование Исполнителя задачи"
   permission_issue_edit_done_ratio: "Редактирование Процент выполнения задачи"
   permission_issue_edit_status: "Редактирование Статуса задачи"
+  permission_issue_edit_attachments: "Редактирование Вложений к задаче"
   gm_sub_task: "Подзадачи"

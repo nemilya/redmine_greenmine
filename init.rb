@@ -17,6 +17,7 @@ Redmine::Plugin.register :redmine_greenmine do
     permission(:issue_edit_assigned_to, {})
     permission(:issue_edit_done_ratio, {})
     permission(:issue_edit_status, {})
+    permission(:issue_edit_attachments, {})
   end
 
 end
@@ -46,6 +47,10 @@ Dispatcher.to_prepare :redmine_greenmine do
       :if => lambda {|issue, user| issue.new_record? || user.allowed_to?(:issue_edit_status, issue.project) }
 
   Issue.send(:include, RedmineGreenmine::Patches::IssuePatch)
+
+  require_dependency 'attachments_controller'
+  AttachmentsController.send(:include, RedmineGreenmine::Patches::AttachmentsControllerPatch)
+
 end
 
 require 'redmine_greenmine/hooks/view_issues_show_details_bottom_hook'
