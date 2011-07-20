@@ -19,6 +19,16 @@ Redmine::Plugin.register :redmine_greenmine do
     permission(:issue_edit_status, {})
     permission(:issue_edit_attachments, {})
     permission(:issue_edit_estimated_hours, {})
+#    permission(:manage_subtasks, {:issues => [:new, :create]})
+  end
+
+
+  # remapping permissions
+  Redmine::AccessControl.permissions.delete_if do |p|
+    p.name == :manage_subtasks
+  end
+  project_module :issue_tracking do |map|
+    map.permission :manage_subtasks,  {:issues => [:new, :create]}
   end
 
 end
