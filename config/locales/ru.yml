@@ -10,4 +10,5 @@ ru:
   permission_issue_edit_status: "Редактирование Статуса задачи"
   permission_issue_edit_attachments: "Редактирование Вложений к задаче"
   permission_issue_edit_estimated_hours: "Редактирование Оценённого времени задачи"
+  permission_issue_edit_fixed_version: "Редактирование Версии задачи"
   gm_sub_task: "Подзадачи"
