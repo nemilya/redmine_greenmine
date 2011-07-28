@@ -34,7 +34,9 @@
 <% end %>
 
 <% unless @issue.assignable_versions.empty? %>
+<% if User.current.allowed_to?(:issue_edit_fixed_version, @project) %>
   <p><%= f.select :fixed_version_id, (@issue.assignable_versions.collect {|v| [v.name, v.id]}), :include_blank => true %></p>
+<% end %>
 <% end %>
 
 </div>

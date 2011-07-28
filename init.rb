@@ -5,7 +5,7 @@ Redmine::Plugin.register :redmine_greenmine do
   name 'Redmine Greenmine plugin'
   author 'Ilya Nemihin'
   description 'This is a plugin for Redmine'
-  version '0.0.7'
+  version '0.0.8'
   url 'https://github.com/nemilya/redmine_greenmine'
   author_url ''
 
@@ -19,6 +19,7 @@ Redmine::Plugin.register :redmine_greenmine do
     permission(:issue_edit_status, {})
     permission(:issue_edit_attachments, {})
     permission(:issue_edit_estimated_hours, {})
+    permission(:issue_edit_fixed_version, {})
 #    permission(:manage_subtasks, {:issues => [:new, :create]})
   end
 
