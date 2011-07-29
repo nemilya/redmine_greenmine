@@ -4,7 +4,7 @@ module Redmine
       def allowed_node?(node, user, project)
         # ilya
         if node.url == { :controller => 'issues', :action => 'new' }
-          return false if !user.allowed_to?(:add_issue, @project)
+          return false if !user.allowed_to?(:add_issues, @project)
         end
         # /ilya
 
