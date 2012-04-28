@@ -1,0 +1,43 @@
+<h1>Матрица выставления дефолтных ответственных</h1>
+
+<table border="1" cellspacing="0" cellspadding="5">
+<tr>
+  <td bgcolor="#e0e0e0">Категория задачи/Трекер</td>
+  <% @trackers.each do |tracker| %>
+    <td bgcolor="#e0e0e0">[<%= tracker.id %>] <%= tracker.name %></td>
+  <% end %>
+</tr>
+<% @issue_categories.each do |cat| %>
+
+<tr>
+  <td bgcolor="#e0e0e0">[<%= cat.id %>] <%= cat.name %></td>
+  <% @trackers.each do |tracker| %>
+    <% item = nil %>
+    <% if @matrix[cat.id] && @matrix[cat.id][tracker.id] %>
+      <% item = @matrix[cat.id][tracker.id] %>
+    <% end %>
+    <% edit_mode = params[:c_id].to_i == cat.id && params[:t_id].to_i == tracker.id %>
+    <td>
+      <% if edit_mode %>
+
+      <form action="/greenmine/set_assign_matrix" method="get">
+        <input type="hidden" name="project_id" value="<%= @project.id %>">
+        <input type="hidden" name="c_id" value="<%= cat.id %>">
+        <input type="hidden" name="t_id" value="<%= tracker.id %>">
+       <select name="assigned_to_id">
+         <option></option>
+         <%= principals_options_for_select(@project.assignable_users, (item && item.assigned_to)) %>
+       </select>
+       <input type="submit" value="Сохранить">
+       <a href="/greenmine/assign_matrix?project_id=<%= @project.id %>">Отмена</a>
+      </form>
+      
+      <% else %>
+        <%= item.assigned_to.name if item %> [<a href="/greenmine/assign_matrix?project_id=<%= @project.id %>&c_id=<%= cat.id %>&t_id=<%= tracker.id%>">изменить</a>]
+      <% end %>
+    </td>
+  <% end %>
+</tr>
+<% end %>
+
+</table>

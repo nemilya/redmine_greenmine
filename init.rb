@@ -5,9 +5,22 @@ Redmine::Plugin.register :redmine_greenmine do
   name 'Redmine Greenmine plugin'
   author 'Ilya Nemihin'
   description 'This is a plugin for Redmine'
-  version '0.0.8'
+  version '0.0.9'
   url 'https://github.com/nemilya/redmine_greenmine'
   author_url ''
+
+
+  permission :assing_matrix, { :greenmine=> [:assign_matrix] }, :public => false
+
+  menu(:project_menu,
+         :assing_matrix,
+         {:controller => 'greenmine', :action => 'assign_matrix'},
+         :param => 'project_id',
+         :caption => 'Матрица ответственных',
+         :if => Proc.new { User.current.admin? }
+      )
+
+
 
   project_module :issue_tracking do
     permission(:issue_move_up_down, {})
