@@ -8,6 +8,21 @@ module ApplicationHelperPatch
   end
 
   module InstanceMethods
+
+    def principals_options_for_select2(collection, selected=nil)
+      s = ''
+      groups = ''
+      collection.sort.each do |element|
+        selected_attribute = ' selected="selected"' if option_value_selected?(element, selected)
+        (element.is_a?(Group) ? groups : s) << %(<option value="#{element.id}"#{selected_attribute}>#{h element.name}</option>)
+      end
+      unless groups.empty?
+        s << %(<optgroup label="#{h(l(:label_group_plural))}">#{groups}</optgroup>)
+      end
+      s
+    end
+    
+    
     def link_to_issue_with_title(issue, options={})
       title = nil
       subject = nil

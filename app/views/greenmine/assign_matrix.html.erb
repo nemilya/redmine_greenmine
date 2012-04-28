@@ -26,7 +26,7 @@
         <input type="hidden" name="t_id" value="<%= tracker.id %>">
        <select name="assigned_to_id">
          <option></option>
-         <%= principals_options_for_select(@project.assignable_users, (item && item.assigned_to)) %>
+         <%= principals_options_for_select2(@project.assignable_users, (item && item.assigned_to)) %>
        </select>
        <input type="submit" value="Сохранить">
        <a href="/greenmine/assign_matrix?project_id=<%= @project.id %>">Отмена</a>
