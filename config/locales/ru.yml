@@ -11,4 +11,5 @@ ru:
   permission_issue_edit_attachments: "Редактирование Вложений к задаче"
   permission_issue_edit_estimated_hours: "Редактирование Оценённого времени задачи"
   permission_issue_edit_fixed_version: "Редактирование Версии задачи"
+  permission_assing_matrix: "Редактирование Матрицы Ответственных"
   gm_sub_task: "Подзадачи"

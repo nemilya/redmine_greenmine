@@ -17,10 +17,8 @@ Redmine::Plugin.register :redmine_greenmine do
          {:controller => 'greenmine', :action => 'assign_matrix'},
          :param => 'project_id',
          :caption => 'Матрица ответственных',
-         :if => Proc.new { User.current.admin? }
+         :if => Proc.new { |p| User.current.admin? || User.current.allowed_to?(:assing_matrix, p) }
       )
-
-
 
   project_module :issue_tracking do
     permission(:issue_move_up_down, {})

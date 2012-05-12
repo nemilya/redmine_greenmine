@@ -16,17 +16,17 @@
 
 <h1>Матрица выставления дефолтных ответственных</h1>
 
-<table border="1" cellspacing="0" cellspadding="5">
+<table border="1" cellspacing="0" cellspadding="8">
 <tr>
   <td bgcolor="#e0e0e0">Категория задачи/Трекер</td>
   <% @trackers.each do |tracker| %>
-    <td bgcolor="#e0e0e0">[<%= tracker.id %>] <%= tracker.name %></td>
+    <td bgcolor="#e0e0e0"><%= tracker.name %></td>
   <% end %>
 </tr>
 <% @issue_categories.each do |cat| %>
 
 <tr>
-  <td bgcolor="#e0e0e0">[<%= cat.id %>] <%= cat.name %></td>
+  <td bgcolor="#e0e0e0"><%= cat.name %></td>
   <% @trackers.each do |tracker| %>
     <% item = nil %>
     <% if @matrix[cat.id] && @matrix[cat.id][tracker.id] %>
