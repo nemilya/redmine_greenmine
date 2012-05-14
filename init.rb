@@ -5,7 +5,7 @@ Redmine::Plugin.register :redmine_greenmine do
   name 'Redmine Greenmine plugin'
   author 'Ilya Nemihin'
   description 'This is a plugin for Redmine'
-  version '0.0.9'
+  version '0.0.10'
   url 'https://github.com/nemilya/redmine_greenmine'
   author_url ''
 
