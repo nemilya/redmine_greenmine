@@ -1,11 +1,13 @@
 require 'redmine'
 
+# Hooks
+require_dependency 'greenmine_issue_hook'
 
 Redmine::Plugin.register :redmine_greenmine do
   name 'Redmine Greenmine plugin'
   author 'Ilya Nemihin'
   description 'This is a plugin for Redmine'
-  version '0.0.10'
+  version '0.0.11'
   url 'https://github.com/nemilya/redmine_greenmine'
   author_url ''
 
@@ -16,7 +18,7 @@ Redmine::Plugin.register :redmine_greenmine do
          :assing_matrix,
          {:controller => 'greenmine', :action => 'assign_matrix'},
          :param => 'project_id',
-         :caption => 'Матрица ответственных',
+         :caption => 'Матрица назначенных',
          :if => Proc.new { |p| User.current.admin? || User.current.allowed_to?(:assing_matrix, p) }
       )
 

@@ -19,7 +19,6 @@ module RedmineGreenmine
 
       module InstanceMethods
         def default_assign_with_assign_matrix
-          # TODO
           if assigned_to.nil? # && category && category.assigned_to
             self.assigned_to = DefaultAssignItem.get_assigned_for_issue(self)
           end
