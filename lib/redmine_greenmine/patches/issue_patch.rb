@@ -9,13 +9,11 @@ module RedmineGreenmine
           unloadable
           belongs_to :gm_responsible, :class_name => 'User', :foreign_key => 'gm_responsible_id'
 
-          # redmine 1.3, compatible for 1.2
-          validate :validate_issue
-
-
           alias_method_chain :default_assign, :assign_matrix
           alias_method_chain :recipients,     :gm_responsible
-          alias_method_chain :validate_issue, :issue_category_fill # проверка на наличие кастомного поля у проекта, и если выставлено - проверять заполненность поля категории
+
+          # redmine 1.2 version
+          alias_method_chain :validate, :issue_category_fill # проверка на наличие кастомного поля у проекта, и если выставлено - проверять заполненность поля категории
         end
       end
 
@@ -62,7 +60,9 @@ module RedmineGreenmine
         # если выставлено кастомное поле у проекта "IssueCategoryFill"
         # и оно "тру" - то проверять наличие заполненного поля "category_id"
         # based on 1.3 version
-        def validate_issue_with_issue_category_fill 
+        # validate_issue_with_issue_category_fill
+        # 1.2 version:
+        def validate_with_issue_category_fill 
           # new
           if project
             project.custom_field_values.each do |value|
