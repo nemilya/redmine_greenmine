@@ -1,4 +1,5 @@
 class GreenmineController < ApplicationController
+
   def issue_move
     issue = Issue.find(params[:id])
     if params[:move] == 'up'

@@ -72,5 +72,6 @@ Dispatcher.to_prepare :redmine_greenmine do
 end
 
 require 'redmine_greenmine/hooks/view_issues_show_details_bottom_hook'
+require 'redmine_greenmine/hooks/view_issues_form_category_required_hook'
 require 'redmine_greenmine/hooks/view_issues_form_details_bottom_hook'
 require 'redmine_greenmine/hooks/controller_issues_edit_after_save_hook'

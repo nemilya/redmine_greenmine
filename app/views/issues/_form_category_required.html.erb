@@ -1,0 +1,17 @@
+<%
+  _cat_required = false
+  if @project
+    @project.custom_field_values.each do |value|
+      if value.custom_field.name == 'IssueCategoryFill'
+        if value.true?
+          _cat_required = true
+          break
+        end
+      end
+    end
+  end
+%>
+
+<% if _cat_required %>
+  <%= javascript_include_tag "redmine_category_required.js", :plugin => 'redmine_greenmine' %>
+<% end %>
