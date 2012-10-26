@@ -12,6 +12,7 @@ module RedmineGreenmine
       end
 
       module InstanceMethods
+        # query.rb redmine v.1.2.1
         def available_filters_with_gm_filters
           return @available_filters if @available_filters
 
