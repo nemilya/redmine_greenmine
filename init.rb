@@ -7,7 +7,7 @@ Redmine::Plugin.register :redmine_greenmine do
   name 'Redmine Greenmine plugin'
   author 'Ilya Nemihin'
   description 'This is a plugin for Redmine'
-  version '0.0.11'
+  version '0.0.12'
   url 'https://github.com/nemilya/redmine_greenmine'
   author_url ''
 
@@ -54,6 +54,9 @@ require 'fix_menu'
 
 require 'dispatcher'
 Dispatcher.to_prepare :redmine_greenmine do
+
+  Query.available_columns << QueryColumn.new(:gm_responsible, :sortable => lambda {User.fields_for_order_statement}, :groupable => true)
+  Query.send(:include, RedmineGreenmine::Patches::QueryPatch)
 
   require_dependency 'issue'
   Issue.safe_attributes "gm_responsible_id"
