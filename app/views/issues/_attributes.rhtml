@@ -22,6 +22,12 @@
 <% else %>
   <p><%= f.select :assigned_to_id, (@issue.assignable_users.collect {|m| [m.name, m.id]}), {:include_blank => true}, :disabled => true %></p>
 <% end %>
+
+<p>
+  <%= f.select :gm_responsible_id, (@issue.assignable_users.collect {|m| [m.name, m.id]}), :include_blank => true %>
+</p>
+
+
 <% unless @project.issue_categories.empty? %>
 <p><%= f.select :category_id, (@project.issue_categories.collect {|c| [c.name, c.id]}), :include_blank => true %>
 <%= prompt_to_remote(image_tag('add.png', :style => 'vertical-align: middle;'),
